@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Flask Blog</title>
+    <title>Blog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to My Flask Blog!</h1>
-    <div class="post">
-        <h2>Post Title</h2>
-        <p><em>Written by ...</em></p>
-        <p>Post content</p>
-    </div>
-    <div class="post">
-        <h2>Post Title</h2>
-        <p><em>Written by ...</em></p>
-        <p>Post content</p>
-    </div>
-    <div class="post">
-        <h2>Post Title</h2>
-        <p><em>Written by ...</em></p>
-        <p>Post content</p>
+    <h1>Welcome to Maik´s Blog</h1>
+    <p><p style="text-align:center"><a href="{{ url_for('add') }}">Add New Post</a></p>
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+                <p><strong>Author:</strong> {{ post.author }}</p>
+                <p>{{ post.content }}</p>
+                <small>Post ID: {{ post.id }}</small>
+                <br>
+                <a href="{{ url_for('like', post_id=post.id) }}"   class="like-btn">Like 👍({{ post.likes }})</a>
+                <a href="{{ url_for('update', post_id=post.id) }}" class="update-btn">Update</a>
+                <a href="{{ url_for('delete', post_id=post.id) }}" class="delete-btn">Delete</a>
+            </div>
+        {% endfor %}
+        {% if not posts %}
+            <p>No blog posts available.</p>
+        {% endif %}
     </div>
 </body>
 </html>
